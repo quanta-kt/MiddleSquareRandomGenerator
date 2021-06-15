@@ -17,18 +17,23 @@ template <typename T> void assert_equals(std::string test, T first, T second) {
     }
 }
 
-void test_pad() {
-    assert_equals("test_pad", middlesquare::pad(123456, 4), 123456);
-    assert_equals("test_pad", middlesquare::pad(12345, 4), 12345);
-    assert_equals("test_pad", middlesquare::pad(1234, 4), 1234);
-    assert_equals("test_pad", middlesquare::pad(123, 4), 1230);
-    assert_equals("test_pad", middlesquare::pad(12, 4), 1200);
-    assert_equals("test_pad", middlesquare::pad(1, 4), 1000);
-    assert_equals("test_pad", middlesquare::pad(0, 4), 0);
+void test_trim() {
+    assert_equals("test_trim", middlesquare::trim_middle(123456, 4), 2345);
+    assert_equals("test_trim", middlesquare::trim_middle(12345, 4), 1234);
+    assert_equals("test_trim", middlesquare::trim_middle(12345678, 4), 3456);
+    assert_equals("test_trim", middlesquare::trim_middle(123456789, 4), 3456);
+    assert_equals("test_trim", middlesquare::trim_middle(12, 4), 12);
+    assert_equals("test_trim", middlesquare::trim_middle(1, 4), 1);
+    assert_equals("test_trim", middlesquare::trim_middle(0, 4), 0);
+
+    assert_equals("test_trim", middlesquare::trim_middle(12345678, 6), 234567);
+    assert_equals("test_trim", middlesquare::trim_middle(123456780, 6), 234567);
+    assert_equals("test_trim", middlesquare::trim_middle(123456789, 3), 456);
+    assert_equals("test_trim", middlesquare::trim_middle(1234567890, 3), 456);
 }
 
 void run_tests() {
-    test_pad();
+    test_trim();
     std::cout << "Total failures reported: " << failures << std::endl;
 }
 

@@ -10,9 +10,8 @@ namespace middlesquare {
         int next();
 
         private:
-        void invalidate_seed();
         int seed;
     };
 
-    int pad(const int source, const int digits);
+    int trim_middle(const int source, const int to_digits);
 }

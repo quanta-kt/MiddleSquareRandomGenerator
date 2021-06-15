@@ -4,53 +4,42 @@
 #include "middlesquare.hpp"
 
 namespace middlesquare {
-    Generator::Generator(const int seed): seed{seed} {
-        this->invalidate_seed();
-    }
+    Generator::Generator(const int seed): seed{seed} {}
 
     /**
      * Generates and returns the next random number.
      */
     int Generator::next() {
-        int squared = pad(seed * seed, 8);
+        int squared = seed * seed;
 
-        seed = (squared / 100) % 10000; // Save xx(xxxx)xx of the squared as new seed
-        invalidate_seed();
+        seed = trim_middle(squared, 4);
 
         // Seed is the next random number.
         return seed;
     }
 
     /**
-     * Invalidates seed by-
-     * - Making sure it's not negative.
-     * - Making sure it takes exactly 4 decimal digits.
+     * Trim the source number to given digits, from the middle of the source number.
+     * Examples:
+     * trim(12345678, 4) => 3456
+     * trim(1234567, 4) => 2345
      */
-    void Generator::invalidate_seed() {
-        // Make sure seed > 0
-        seed = abs(seed);
+    int trim_middle(const int source, const int to_digits) {
 
-        // Make sure seed does not exceed 4 digits
-        seed = std::min(seed % 10000, 9999);
+        int digits = (floor(log10(source)) + 1); // Counting digits in the number. See: https://stackoverflow.com/questions/10886413/get-number-of-digits-of-a-number
 
-        // Pad with zeros
-        seed = pad(seed, 4);
-    }
-
-    /**
-     * Pads the source number with zeros to makes sure it contains atleast `digit` digits
-     */
-    int pad(const int source, const int digits) {
-
-        // Calculate zeros to pad
-        int zeros =
-            digits -
-            (floor(log10(source)) + 1); // Counting digits in the number. See: https://stackoverflow.com/questions/10886413/get-number-of-digits-of-a-number
-
-        if (zeros > 0) {
-            return source * (std::pow(10, zeros));
+        // Pointless case
+        if (to_digits >= digits) {
+            return source;
         }
 
-        return source;
+        // Digits to remove from both the right
+        int bonds = std::ceil(float(digits - to_digits) / 2);
+        
+        // Discard digits from right
+        int t = source / pow(10, bonds);
+
+        // Get the required digits
+        return t % int(std::pow(10, to_digits));
     }
 }

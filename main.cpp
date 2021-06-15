@@ -10,7 +10,7 @@
 int main() {
     auto generator = middlesquare::Generator(int(std::time(nullptr)));
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 100; i++) {
         std::cout << generator.next() << std::endl;
     }
 }
