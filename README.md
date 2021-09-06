@@ -3,6 +3,9 @@ Middle Square Method a simple algorithm to generate pseudo random numbers.
 
 More on the algorithm here: https://en.wikipedia.org/wiki/Middle-square_method
 
+# Archived
+I wrote this project for demonstrating to a friend, writting this was a fun game.
+
 # Building
 No makefiles are provided, build using g++ as:
 ```
